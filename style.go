@@ -41,7 +41,7 @@ var (
 
 // Defines the PurpleClay palette for accent color shades
 var (
-	Green900 = lipgloss.Color("#14532d")
+	Green900 = lipgloss.Color("#166534")
 	Green700 = lipgloss.Color("#15803d")
 )
 
@@ -51,58 +51,58 @@ var (
 		Bold(true).
 		Underline(true).
 		Foreground(lipgloss.AdaptiveColor{
-			Light: string(S900),
+			Light: string(S400),
 			Dark:  string(S100),
 		})
 
-	h = lipgloss.NewStyle().Padding(0, 1).Bold(true)
+	h = lipgloss.NewStyle().Padding(0, 1).Bold(true).Foreground(lipgloss.Color("#ffffff"))
 
 	// H1 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H1 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S500),
-			Dark:  string(S300),
+			Light: string(S50),
+			Dark:  string(S200),
 		})
 
 	// H2 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H2 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S600),
-			Dark:  string(S400),
+			Light: string(S100),
+			Dark:  string(S300),
 		})
 
 	// H3 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H3 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S700),
-			Dark:  string(S500),
+			Light: string(S200),
+			Dark:  string(S400),
 		})
 
 	// H4 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H4 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S800),
-			Dark:  string(S600),
+			Light: string(S300),
+			Dark:  string(S500),
 		})
 
 	// H5 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H5 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S900),
-			Dark:  string(S700),
+			Light: string(S400),
+			Dark:  string(S600),
 		})
 
 	// H6 defines a PurpleClay themed header that is ranked on importance from
 	// H1 (most) to H6 (least). Supports both light and dark terminals
 	H6 = h.Copy().
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S950),
-			Dark:  string(S800),
+			Light: string(S500),
+			Dark:  string(S700),
 		})
 
 	// Mark defines a PurpleClay themed text decoration for highlighting text. Supports
@@ -110,8 +110,8 @@ var (
 	Mark = lipgloss.NewStyle().
 		Padding(0, 1).
 		Background(lipgloss.AdaptiveColor{
-			Light: string(S900),
-			Dark:  string(S900),
+			Light: string(S50),
+			Dark:  string(S800),
 		})
 
 	// I defines a PurpleClay themed hyperlink that supports both light and dark terminals

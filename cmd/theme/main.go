@@ -25,6 +25,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	theme "github.com/purpleclay/lipgloss-theme"
@@ -80,7 +81,10 @@ func palette() string {
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		theme.H1.Render("Monochromatic Palette"),
-		theme.NewTable([][]string{colors, labels}, theme.NoBorder).String(),
+		theme.NewTable([][]string{colors, labels}).
+			Dividers(false).
+			Collapsed(true).
+			String(),
 	)
 }
 
@@ -91,13 +95,13 @@ func typogrpahy() string {
 		{"h3", theme.H3.Render(loremIpsum), "", "b", theme.B.Render(loremIpsum)},
 		{"h4", theme.H4.Render(loremIpsum), "", "s", theme.S.Render(loremIpsum)},
 		{"h5", theme.H5.Render(loremIpsum), "", "a", theme.A.Render(loremIpsum)},
-		{"h6", theme.H6.Render(loremIpsum), "", "", ""},
+		{"h6", theme.H6.Render(loremIpsum), "", "mark", strings.Replace(loremIpsum, "dolor", theme.Mark.Render("dolor"), 1)},
 	}
 
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		theme.H2.Render("Typography"),
-		theme.NewTable(data, theme.NoBorder, 6, 12, 6, 6, 12).String(),
+		theme.NewTable(data).Collapsed(true).Dividers(false).Widths(6, 12, 6, 6, 12).String(),
 	)
 }
 
@@ -109,14 +113,14 @@ func glyphs() string {
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		theme.H3.Render("Glyphs"),
-		theme.NewTable(data, theme.NoBorder, 6, 12).String(),
+		theme.NewTable(data).Collapsed(true).Widths(6, 12).String(),
 	)
 }
 
 func tables() string {
-	tbl := [][]string{{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}}
+	tbl := [][]string{{"1", "2", "3"}, {"4", "5", "6"}}
 
-	thinBorder := theme.NewTable(tbl, theme.ThinBorder, 6).String()
+	thinBorder := theme.NewTable(tbl).Border(theme.ThinBorder).Widths(6).String()
 
 	labelCell := lipgloss.NewStyle().AlignVertical(lipgloss.Center)
 	data := [][]string{
@@ -126,6 +130,6 @@ func tables() string {
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		theme.H4.Render("Tables"),
-		theme.NewTable(data, theme.NoBorder, 6, 20).String(),
+		theme.NewTable(data).Widths(6, 20).String(),
 	)
 }

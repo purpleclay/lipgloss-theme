@@ -50,8 +50,8 @@ type TableBorder struct {
 var (
 	bdr = lipgloss.NewStyle().
 		Foreground(lipgloss.AdaptiveColor{
-			Light: string(S800),
-			Dark:  string(S600),
+			Light: string(S400),
+			Dark:  string(S200),
 		})
 
 	cell = lipgloss.NewStyle().Padding(0, 1)
@@ -93,40 +93,42 @@ type Table struct {
 	top        string
 	middle     string
 	bottom     string
+	dividers   bool
+	collapsed  bool
 }
 
 // NewTable creates a table that will dynamically size around its provided
-// data.
+// data. By default the table will be rendered without any border
 //
 //	data := [][]string{
 //		{"City", "Avg. Rainfall", "Avg. Temp"},
 //		{"Barclona", "640 mm", "21.2 °C"},
 //		{"London", "585 mm", "11 °C"},
 //	}
-//	theme.NewTable(data, theme.ThinBorder)
-//
-// Fixed widths can be optionally provided. If only one argument is provided
-// all columns will be fixed to the same width. If more than one argument is
-// provided, each corresponding columns width will be fixed in turn.
-//
-//	theme.NewTable(data, theme.ThinBorder, 10)
-//	theme.NewTable(data, theme.ThinBorder, 20, 15, 15)
-func NewTable(data [][]string, border TableBorder, maxW ...int) *Table {
+//	theme.NewTable(data)
+func NewTable(data [][]string) *Table {
 	t := &Table{
-		border:     border,
+		border:     NoBorder,
 		rowHeights: []int{},
 		colWidths:  []int{},
 		data:       data,
+		dividers:   true,
+		collapsed:  false,
 	}
-	t.maxDimensionsFrom(maxW...)
+	t.maxDimensions()
 	t.resetDividers()
 
 	return t
 }
 
-func (t *Table) maxDimensionsFrom(maxW ...int) {
+func (t *Table) maxDimensions() {
 	if len(t.data) == 0 || len(t.data[0]) == 0 {
 		return
+	}
+
+	copy := cell.Copy()
+	if t.collapsed {
+		copy = copy.UnsetPadding()
 	}
 
 	t.rowHeights = make([]int, len(t.data))
@@ -134,25 +136,10 @@ func (t *Table) maxDimensionsFrom(maxW ...int) {
 
 	for i, row := range t.data {
 		for j, c := range row {
-			w, h := lipgloss.Size(cell.Render(c))
+			w, h := lipgloss.Size(copy.Render(c))
 			t.colWidths[j] = max(t.colWidths[j], w)
 			t.rowHeights[i] = max(t.rowHeights[i], h)
 		}
-	}
-
-	if len(maxW) == 0 {
-		return
-	}
-
-	if len(maxW) == 1 {
-		for i := 0; i < len(t.colWidths); i++ {
-			t.colWidths[i] = maxW[0]
-		}
-	}
-
-	cols := min(len(t.colWidths), len(maxW))
-	for i := 0; i < cols; i++ {
-		t.colWidths[i] = max(t.colWidths[i], maxW[i])
 	}
 }
 
@@ -202,14 +189,67 @@ func verticalDivider(str string, h int) string {
 	return bdr.Render(strings.TrimRight(d, "\n"))
 }
 
+// Border sets the table border
+func (t *Table) Border(border TableBorder) *Table {
+	t.border = border
+	t.resetDividers()
+	return t
+}
+
+// Widths sets the maximum widths of each colum within the table. If only
+// one argument is provided all columns will be fixed to the same width.
+// If more than one argument is provided, each corresponding columns width
+// will be fixed in turn.
+func (t *Table) Widths(w ...int) *Table {
+	t.resetMaxWidths(w...)
+	t.resetDividers()
+	return t
+}
+
+func (t *Table) resetMaxWidths(w ...int) {
+	if len(w) == 0 {
+		return
+	}
+
+	if len(w) == 1 {
+		for i := 0; i < len(t.colWidths); i++ {
+			t.colWidths[i] = w[0]
+		}
+	}
+
+	cols := min(len(t.colWidths), len(w))
+	for i := 0; i < cols; i++ {
+		t.colWidths[i] = max(t.colWidths[i], w[i])
+	}
+}
+
+// Dividers controls whether a row divider should be rendered
+// between all table rows
+func (t *Table) Dividers(on bool) *Table {
+	t.dividers = on
+	return t
+}
+
+// Collapsed controls whether all internal padding within the
+// table should be removed
+func (t *Table) Collapsed(on bool) *Table {
+	t.collapsed = on
+	t.maxDimensions()
+	return t
+}
+
 // String renders the table as a formatted string
 func (t *Table) String() string {
 	if len(t.data) == 0 {
 		return ""
 	}
 
-	tblRows := make([]string, 0, len(t.data))
+	copy := cell.Copy()
+	if t.collapsed {
+		copy = copy.UnsetPadding()
+	}
 
+	var tblRows []string
 	for i, row := range t.data {
 		var tblRow []string
 
@@ -218,10 +258,13 @@ func (t *Table) String() string {
 
 		for j, col := range row {
 			tblRow = append(tblRow, vertJoin)
-			tblRow = append(tblRow, cell.Copy().Width(t.colWidths[j]).Render(col))
+			tblRow = append(tblRow, copy.Width(t.colWidths[j]).Render(col))
 		}
 		tblRow = append(tblRow, vertJoin)
 		tblRows = append(tblRows, lipgloss.JoinHorizontal(lipgloss.Left, tblRow...))
+		if t.dividers && i < len(t.data)-1 {
+			tblRows = append(tblRows, t.middle)
+		}
 	}
 
 	return lipgloss.JoinVertical(
