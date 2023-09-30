@@ -127,12 +127,10 @@ var (
 	S = lipgloss.NewStyle().Strikethrough(true)
 )
 
-var (
-	// Tick defines a PurpleClay themed glyph ✓ that supports both light and dark terminals
-	Tick = lipgloss.NewStyle().
-		Foreground(lipgloss.AdaptiveColor{
-			Light: string(Green900),
-			Dark:  string(Green700),
-		}).
-		Render("✓ ")
-)
+// Tick defines a PurpleClay themed glyph ✓ that supports both light and dark terminals
+var Tick = lipgloss.NewStyle().
+	Foreground(lipgloss.AdaptiveColor{
+		Light: string(Green900),
+		Dark:  string(Green700),
+	}).
+	Render("✓ ")
