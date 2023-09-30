@@ -111,7 +111,7 @@ var (
 		Padding(0, 1).
 		Background(lipgloss.AdaptiveColor{
 			Light: string(S50),
-			Dark:  string(S800),
+			Dark:  string(S700),
 		})
 
 	// I defines a PurpleClay themed hyperlink that supports both light and dark terminals
