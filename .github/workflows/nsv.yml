@@ -38,3 +38,6 @@ jobs:
         uses: purpleclay/nsv-action@v1
         with:
           token: ${{ secrets.GH_NSV }}
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          NSV_FORMAT: "v{{.Version}}"
