@@ -40,4 +40,6 @@ jobs:
           token: ${{ secrets.GH_NSV }}
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_TRUST_LEVEL: ${{ secrets.GPG_TRUST_LEVEL }}
           NSV_FORMAT: "v{{.Version}}"
