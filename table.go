@@ -126,9 +126,9 @@ func (t *Table) maxDimensions() {
 		return
 	}
 
-	copy := cell.Copy()
+	cellStyle := cell.Copy()
 	if t.collapsed {
-		copy = copy.UnsetPadding()
+		cellStyle = cellStyle.UnsetPadding()
 	}
 
 	t.rowHeights = make([]int, len(t.data))
@@ -136,7 +136,7 @@ func (t *Table) maxDimensions() {
 
 	for i, row := range t.data {
 		for j, c := range row {
-			w, h := lipgloss.Size(copy.Render(c))
+			w, h := lipgloss.Size(cellStyle.Render(c))
 			t.colWidths[j] = max(t.colWidths[j], w)
 			t.rowHeights[i] = max(t.rowHeights[i], h)
 		}
@@ -244,9 +244,9 @@ func (t *Table) String() string {
 		return ""
 	}
 
-	copy := cell.Copy()
+	cellStyle := cell.Copy()
 	if t.collapsed {
-		copy = copy.UnsetPadding()
+		cellStyle = cellStyle.UnsetPadding()
 	}
 
 	var tblRows []string
@@ -257,8 +257,7 @@ func (t *Table) String() string {
 		vertJoin := verticalDivider(t.border.Vertical, rowH)
 
 		for j, col := range row {
-			tblRow = append(tblRow, vertJoin)
-			tblRow = append(tblRow, copy.Width(t.colWidths[j]).Render(col))
+			tblRow = append(tblRow, vertJoin, cellStyle.Width(t.colWidths[j]).Render(col))
 		}
 		tblRow = append(tblRow, vertJoin)
 		tblRows = append(tblRows, lipgloss.JoinHorizontal(lipgloss.Left, tblRow...))
