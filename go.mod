@@ -1,6 +1,6 @@
 module github.com/purpleclay/lipgloss-theme
 
-go 1.21
+go 1.17
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
