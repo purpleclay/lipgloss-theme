@@ -157,7 +157,10 @@ var (
 		}).
 		Render("!")
 
-	// Logging defines a PurpleClay themed logging style that supports both light and dark terminals
+	// Logging defines a PurpleClay themed [logging] style that supports both light and
+	// dark terminals
+	//
+	// [logging]: https://github.com/charmbracelet/log
 	Logging = &log.Styles{
 		Timestamp: lipgloss.NewStyle(),
 		Caller:    lipgloss.NewStyle().Faint(true),

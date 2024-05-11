@@ -25,8 +25,8 @@ test_patterns = ["**/*_test.go"]
 name = "go"
 enabled = true
 
-[analyzers.meta]
-import_root = "github.com/purpleclay/lipgloss-theme"
+    [analyzers.meta]
+    import_root = "github.com/purpleclay/lipgloss-theme"
 
 [[analyzers]]
 name = "secrets"
