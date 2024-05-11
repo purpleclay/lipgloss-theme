@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Purple Clay
+Copyright (c) 2023 - 2024 Purple Clay
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,10 @@ SOFTWARE.
 
 package theme
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/log"
+)
 
 // Defines the PurpleClay palette of color shades
 var (
@@ -41,8 +44,12 @@ var (
 
 // Defines the PurpleClay palette for accent color shades
 var (
-	Green900 = lipgloss.Color("#166534")
+	Green900 = lipgloss.Color("#087331")
 	Green700 = lipgloss.Color("#15803d")
+	Amber900 = lipgloss.Color("#bf4102")
+	Amber700 = lipgloss.Color("#db4b02")
+	Red900   = lipgloss.Color("#ab0513")
+	Red700   = lipgloss.Color("#db0f20")
 )
 
 var (
@@ -125,12 +132,76 @@ var (
 
 	// S defines a PurpleClay themed strikethrough text decoration
 	S = lipgloss.NewStyle().Strikethrough(true)
-)
 
-// Tick defines a PurpleClay themed glyph ✓ that supports both light and dark terminals
-var Tick = lipgloss.NewStyle().
-	Foreground(lipgloss.AdaptiveColor{
-		Light: string(Green900),
-		Dark:  string(Green700),
-	}).
-	Render("✓ ")
+	// Tick defines a PurpleClay themed glyph ✓ that supports both light and dark terminals
+	Tick = lipgloss.NewStyle().
+		Foreground(lipgloss.AdaptiveColor{
+			Light: string(Green900),
+			Dark:  string(Green700),
+		}).
+		Render("✓")
+
+	// Cross defines a PurpleClay themed glyph x that supports both light and dark terminals
+	Cross = lipgloss.NewStyle().
+		Foreground(lipgloss.AdaptiveColor{
+			Light: string(Red900),
+			Dark:  string(Red700),
+		}).
+		Render("✕")
+
+	// Bang defines a PurpleClay themed glyph ! that supports both light and dark terminals
+	Bang = lipgloss.NewStyle().
+		Foreground(lipgloss.AdaptiveColor{
+			Light: string(Amber900),
+			Dark:  string(Amber700),
+		}).
+		Render("!")
+
+	// Logging defines a PurpleClay themed logging style that supports both light and dark terminals
+	Logging = &log.Styles{
+		Timestamp: lipgloss.NewStyle(),
+		Caller:    lipgloss.NewStyle().Faint(true),
+		Prefix:    lipgloss.NewStyle().Bold(true).Faint(true),
+		Message:   lipgloss.NewStyle().MarginRight(2),
+		Key: lipgloss.NewStyle().
+			Foreground(lipgloss.AdaptiveColor{
+				Light: string(S400),
+				Dark:  string(S100),
+			}),
+		Value:     lipgloss.NewStyle(),
+		Separator: lipgloss.NewStyle().Faint(true),
+		Levels: map[log.Level]lipgloss.Style{
+			log.DebugLevel: lipgloss.NewStyle().
+				SetString(Tick).
+				Bold(true).
+				MaxWidth(2),
+			log.InfoLevel: lipgloss.NewStyle().
+				SetString(Tick).
+				Bold(true).
+				MaxWidth(2),
+			log.WarnLevel: lipgloss.NewStyle().
+				SetString(Bang).
+				Bold(true).
+				MaxWidth(2),
+			log.ErrorLevel: lipgloss.NewStyle().
+				SetString(Cross).
+				Bold(true).
+				MaxWidth(2),
+			log.FatalLevel: lipgloss.NewStyle().
+				SetString(Cross).
+				Bold(true).
+				MaxWidth(2),
+		},
+		Keys: map[string]lipgloss.Style{
+			"err": lipgloss.NewStyle().Foreground(lipgloss.AdaptiveColor{
+				Light: string(Red900),
+				Dark:  string(Red700),
+			}),
+			"error": lipgloss.NewStyle().Foreground(lipgloss.AdaptiveColor{
+				Light: string(Red900),
+				Dark:  string(Red700),
+			}),
+		},
+		Values: map[string]lipgloss.Style{},
+	}
+)

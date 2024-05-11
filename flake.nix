@@ -20,7 +20,6 @@
             gofumpt
             golangci-lint
             go-task
-            vhs
           ];
         };
       }
