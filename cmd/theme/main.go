@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2023 Purple Clay
+Copyright (c) 2023 - 2024 Purple Clay
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -107,13 +107,15 @@ func typogrpahy() string {
 
 func glyphs() string {
 	data := [][]string{
-		{"tick", theme.Tick + loremIpsum},
+		{"tick", theme.Tick + " " + loremIpsum},
+		{"cross", theme.Cross + " " + loremIpsum},
+		{"bang", theme.Bang + " " + loremIpsum},
 	}
 
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
 		theme.H3.Render("Glyphs"),
-		theme.NewTable(data).Collapsed(true).Widths(6, 12).String(),
+		theme.NewTable(data).Collapsed(true).Dividers(false).Widths(6, 12).String(),
 	)
 }
 
