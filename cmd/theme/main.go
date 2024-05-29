@@ -30,17 +30,17 @@ func palette() string {
 	labelCell := lipgloss.NewStyle().Width(12).AlignHorizontal(lipgloss.Center)
 
 	colors := []string{
-		colorCell.Copy().Background(theme.S50).Render(),
-		colorCell.Copy().Background(theme.S100).Render(),
-		colorCell.Copy().Background(theme.S200).Render(),
-		colorCell.Copy().Background(theme.S300).Render(),
-		colorCell.Copy().Background(theme.S400).Render(),
-		colorCell.Copy().Background(theme.S500).Render(),
-		colorCell.Copy().Background(theme.S600).Render(),
-		colorCell.Copy().Background(theme.S700).Render(),
-		colorCell.Copy().Background(theme.S800).Render(),
-		colorCell.Copy().Background(theme.S900).Render(),
-		colorCell.Copy().Background(theme.S950).Render(),
+		colorCell.Background(theme.S50).Render(),
+		colorCell.Background(theme.S100).Render(),
+		colorCell.Background(theme.S200).Render(),
+		colorCell.Background(theme.S300).Render(),
+		colorCell.Background(theme.S400).Render(),
+		colorCell.Background(theme.S500).Render(),
+		colorCell.Background(theme.S600).Render(),
+		colorCell.Background(theme.S700).Render(),
+		colorCell.Background(theme.S800).Render(),
+		colorCell.Background(theme.S900).Render(),
+		colorCell.Background(theme.S950).Render(),
 	}
 	labels := []string{
 		labelCell.Render("50"),
@@ -104,7 +104,7 @@ func tables() string {
 
 	labelCell := lipgloss.NewStyle().AlignVertical(lipgloss.Center)
 	data := [][]string{
-		{labelCell.Copy().Height(lipgloss.Height(thinBorder)).Render("thin"), thinBorder},
+		{labelCell.Height(lipgloss.Height(thinBorder)).Render("thin"), thinBorder},
 	}
 
 	return lipgloss.JoinVertical(

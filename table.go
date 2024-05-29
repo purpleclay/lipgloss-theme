@@ -104,7 +104,7 @@ func (t *Table) maxDimensions() {
 		return
 	}
 
-	cellStyle := cell.Copy()
+	cellStyle := cell
 	if t.collapsed {
 		cellStyle = cellStyle.UnsetPadding()
 	}
@@ -222,7 +222,7 @@ func (t *Table) String() string {
 		return ""
 	}
 
-	cellStyle := cell.Copy()
+	cellStyle := cell
 	if t.collapsed {
 		cellStyle = cellStyle.UnsetPadding()
 	}
