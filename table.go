@@ -35,12 +35,6 @@ var (
 	cell = lipgloss.NewStyle().Padding(0, 1)
 
 	// ThinBorder defines a series of characters for rendering a table with a thin border
-	//
-	// 	┌───────┬───────┬───────┐
-	// 	│   1   │   2   │   3   │
-	// 	├───────┼───────┼───────┤
-	//	│   4   │   5   │   6   │
-	// 	└───────┴───────┴───────┘
 	ThinBorder = TableBorder{
 		Bottom:      "─",
 		BottomJoin:  "┴",
