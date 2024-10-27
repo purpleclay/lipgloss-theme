@@ -11,7 +11,7 @@
 !CODE_OF_CONDUCT.md
 !LICENSE
 !README.md
-!Taskfile.yaml
+!taskfile.yaml
 !*.png
 
 # Allow Nix files
