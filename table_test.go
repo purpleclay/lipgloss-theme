@@ -1,11 +1,13 @@
 package theme_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/exp/golden"
+	"github.com/muesli/termenv"
 	theme "github.com/purpleclay/lipgloss-theme"
-	"gotest.tools/v3/golden"
 )
 
 // Thanks ChatGPT!
@@ -21,11 +23,18 @@ var data = [][]string{
 	{"Riddler", "Male", "Obsession with riddles, green suit with question marks", "7"},
 }
 
+func TestMain(m *testing.M) {
+	// Strip all color related to the theme as it is breaking golden tests
+	lipgloss.SetColorProfile(termenv.Ascii)
+	code := m.Run()
+	os.Exit(code)
+}
+
 func TestTableNoBorder(t *testing.T) {
 	t.Parallel()
 	tbl := theme.NewTable(data)
 
-	golden.Assert(t, lipgloss.NewStyle().Render(tbl.String()), "TestTableNoBorder.golden")
+	golden.RequireEqual(t, []byte(tbl.String()))
 }
 
 func TestTableThinBorder(t *testing.T) {
@@ -33,7 +42,7 @@ func TestTableThinBorder(t *testing.T) {
 	tbl := theme.NewTable(data).
 		Border(theme.ThinBorder)
 
-	golden.Assert(t, lipgloss.NewStyle().Render(tbl.String()), "TestTableThinBorder.golden")
+	golden.RequireEqual(t, []byte(tbl.String()))
 }
 
 func TestTableNoDividers(t *testing.T) {
@@ -42,7 +51,7 @@ func TestTableNoDividers(t *testing.T) {
 		Border(theme.ThinBorder).
 		Dividers(false)
 
-	golden.Assert(t, lipgloss.NewStyle().Render(tbl.String()), "TestTableNoDividers.golden")
+	golden.RequireEqual(t, []byte(tbl.String()))
 }
 
 func TestTableCollapsed(t *testing.T) {
@@ -50,11 +59,32 @@ func TestTableCollapsed(t *testing.T) {
 	tbl := theme.NewTable(data).
 		Collapsed(true)
 
-	golden.Assert(t, lipgloss.NewStyle().Render(tbl.String()), "TestTableCollapsed.golden")
+	golden.RequireEqual(t, []byte(tbl.String()))
 }
 
-func TestTableColumnAlignment(t *testing.T) {
+func TestTableWidths(t *testing.T) {
+	t.Parallel()
+	tbl := theme.NewTable(data).
+		Border(theme.ThinBorder).
+		Widths(8, 6, 30, 10)
+
+	golden.RequireEqual(t, []byte(tbl.String()))
 }
 
-func TestTableMixedColumnAlignment(t *testing.T) {
+func TestTableHorizontalAlignments(t *testing.T) {
+	t.Parallel()
+	tbl := theme.NewTable(data).
+		Border(theme.ThinBorder).
+		HorizontalAlignments(lipgloss.Left, lipgloss.Center, lipgloss.Left, lipgloss.Right)
+
+	golden.RequireEqual(t, []byte(tbl.String()))
+}
+
+func TestTableVerticalAlignments(t *testing.T) {
+	t.Parallel()
+	tbl := theme.NewTable(data).
+		Border(theme.ThinBorder).
+		VerticalAlignments(lipgloss.Top, lipgloss.Center, lipgloss.Bottom, lipgloss.Top)
+
+	golden.RequireEqual(t, []byte(tbl.String()))
 }

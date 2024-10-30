@@ -67,6 +67,7 @@ type Table struct {
 	bottom     string
 	dividers   bool
 	collapsed  bool
+	alignments [][]lipgloss.Position
 }
 
 // NewTable creates a table that will dynamically size around its provided
@@ -87,10 +88,24 @@ func NewTable(data [][]string) *Table {
 		dividers:   true,
 		collapsed:  false,
 	}
+
+	t.resetAlignments()
 	t.maxDimensions()
 	t.resetDividers()
-
 	return t
+}
+
+func (t *Table) resetAlignments() {
+	if len(t.data) == 0 || len(t.data[0]) == 0 {
+		return
+	}
+
+	t.alignments = make([][]lipgloss.Position, len(t.data[0]))
+	for i := range t.data[0] {
+		t.alignments[i] = make([]lipgloss.Position, 2)
+		t.alignments[i][0] = lipgloss.Left
+		t.alignments[i][1] = lipgloss.Top
+	}
 }
 
 func (t *Table) maxDimensions() {
@@ -187,11 +202,50 @@ func (t *Table) resetMaxWidths(w ...int) {
 		for i := 0; i < len(t.colWidths); i++ {
 			t.colWidths[i] = w[0]
 		}
+		return
 	}
 
 	cols := min(len(t.colWidths), len(w))
 	for i := 0; i < cols; i++ {
-		t.colWidths[i] = max(t.colWidths[i], w[i])
+		t.colWidths[i] = w[i]
+	}
+}
+
+// HorizontalAlignments is a shorthand method for setting the horizontal alignment of
+// columns within the table. All columns will adopt the same alignment when only
+// one argument is set. Each column will adopt its own alignment if more than one
+// argument is set. If the number of alignments is less than the number of columns,
+// then those columns remain untouched
+func (t *Table) HorizontalAlignments(p ...lipgloss.Position) *Table {
+	t.setAlignments(0, p...)
+	return t
+}
+
+// VerticalAlignments is a shorthand method for setting the vertical alignment of
+// columns within the table. All columns will adopt the same alignment when only
+// one argument is set. Each column will adopt its own alignment if more than one
+// argument is set. If the number of alignments is less than the number of columns,
+// then those columns remain untouched
+func (t *Table) VerticalAlignments(p ...lipgloss.Position) *Table {
+	t.setAlignments(1, p...)
+	return t
+}
+
+func (t *Table) setAlignments(pos int, p ...lipgloss.Position) {
+	if len(p) == 0 {
+		return
+	}
+
+	if len(p) == 1 {
+		for i := 0; i < len(t.colWidths); i++ {
+			t.alignments[i][pos] = p[0]
+		}
+		return
+	}
+
+	cols := min(len(t.colWidths), len(p))
+	for i := 0; i < cols; i++ {
+		t.alignments[i][pos] = p[i]
 	}
 }
 
@@ -229,7 +283,11 @@ func (t *Table) String() string {
 		vertJoin := verticalDivider(t.border.Vertical, rowH)
 
 		for j, col := range row {
-			tblRow = append(tblRow, vertJoin, cellStyle.Width(t.colWidths[j]).Render(col))
+			cell := cellStyle.Width(t.colWidths[j]).
+				Align(t.alignments[j]...).
+				Render(col)
+
+			tblRow = append(tblRow, vertJoin, cell)
 		}
 		tblRow = append(tblRow, vertJoin)
 		tblRows = append(tblRows, lipgloss.JoinHorizontal(lipgloss.Left, tblRow...))

@@ -1,0 +1,28 @@
+┌────────┬──────┬──────────────────────────────┬──────────┐
+│ Name   │ Sex  │ Distinguishing Features      │ Madness  │
+                                                 Rating    
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ The    │ Male │ Clown-like appearance, green │ 10       │
+  Joker           hair, pale skin,                         
+                  psychopathic smile                       
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ Harley │ Fema │ Clown-like appearance,       │ 9        │
+  Quinn    le     mallet weapon, acrobatic and             
+                  unpredictable                            
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ Two-   │ Male │ Half-burned face, split      │ 8        │
+  Face            personality (Harvey Dent and             
+                  Two-Face)                                
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ Scarec │ Male │ Wears a scarecrow mask, uses │ 8        │
+  row             fear toxins to manipulate                
+                  victims                                  
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ Mad    │ Male │ Obsession with Alice in      │ 8        │
+  Hatter          Wonderland, mind-control                 
+                  technology                               
+├────────┼──────┼──────────────────────────────┼──────────┤
+│ Riddle │ Male │ Obsession with riddles,      │ 7        │
+  r               green suit with question                 
+                  marks                                    
+└────────┴──────┴──────────────────────────────┴──────────┘
