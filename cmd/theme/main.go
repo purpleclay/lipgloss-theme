@@ -100,7 +100,11 @@ func glyphs() string {
 func tables() string {
 	tbl := [][]string{{"1", "2", "3"}, {"4", "5", "6"}}
 
-	thinBorder := theme.NewTable(tbl).Border(theme.ThinBorder).Widths(6).String()
+	thinBorder := theme.NewTable(tbl).
+		Border(theme.ThinBorder).
+		Widths(10).
+		HorizontalAlignments(lipgloss.Left, lipgloss.Center, lipgloss.Right).
+		String()
 
 	labelCell := lipgloss.NewStyle().AlignVertical(lipgloss.Center)
 	data := [][]string{

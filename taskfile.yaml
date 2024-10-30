@@ -32,6 +32,11 @@ tasks:
     cmds:
       - go test {{.TEST_OPTIONS}} -covermode=atomic -coverprofile={{.COVER_PROFILE}} {{.TEST_FORMAT}} ./...
 
+  golden-test:
+    desc: Run the unit tests
+    cmds:
+      - go test -update
+
   lint:
     desc: Lint the code using golangci-lint
     vars:
