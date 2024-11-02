@@ -30,19 +30,43 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func TestTableNoBorder(t *testing.T) {
-	t.Parallel()
-	tbl := theme.NewTable(data)
+func TestTableBorder(t *testing.T) {
+	tests := []struct {
+		name   string
+		border theme.TableBorder
+	}{
+		{
+			name:   "NoBorder",
+			border: theme.NoBorder,
+		},
+		{
+			name:   "HiddenBorder",
+			border: theme.HiddenBorder,
+		},
+		{
+			name:   "ThinBorder",
+			border: theme.ThinBorder,
+		},
+		{
+			name:   "ThickBorder",
+			border: theme.ThickBorder,
+		},
+		{
+			name:   "RoundedBorder",
+			border: theme.RoundedThinBorder,
+		},
+		{
+			name:   "DoubleBorder",
+			border: theme.DoubleBorder,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tbl := theme.NewTable(data).Border(tt.border)
 
-	golden.RequireEqual(t, []byte(tbl.String()))
-}
-
-func TestTableThinBorder(t *testing.T) {
-	t.Parallel()
-	tbl := theme.NewTable(data).
-		Border(theme.ThinBorder)
-
-	golden.RequireEqual(t, []byte(tbl.String()))
+			golden.RequireEqual(t, []byte(tbl.String()))
+		})
+	}
 }
 
 func TestTableNoDividers(t *testing.T) {
