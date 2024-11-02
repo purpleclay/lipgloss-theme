@@ -33,27 +33,6 @@ var (
 		})
 
 	cell = lipgloss.NewStyle().Padding(0, 1)
-
-	// ThinBorder defines a series of characters for rendering a table with a thin border
-	ThinBorder = TableBorder{
-		Bottom:      "─",
-		BottomJoin:  "┴",
-		BottomLeft:  "└",
-		BottomRight: "┘",
-		Middle:      "─",
-		MiddleJoin:  "┼",
-		MiddleLeft:  "├",
-		MiddleRight: "┤",
-		MiddleTop:   "┬",
-		Top:         "─",
-		TopJoin:     "┬",
-		TopLeft:     "┌",
-		TopRight:    "┐",
-		Vertical:    "│",
-	}
-
-	// NoBorder should be used if rendering a table without a border
-	NoBorder = TableBorder{}
 )
 
 // Table supports the rendering of tabular data within a terminal
