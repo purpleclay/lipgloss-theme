@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/charmbracelet/lipgloss/table"
 	theme "github.com/purpleclay/lipgloss-theme"
 )
 
@@ -56,8 +55,6 @@ func palette() string {
 		labelCell.Render("900"),
 		labelCell.Render("950"),
 	}
-
-	table.New().Border(lipgloss.Border{}).Row(colors...).String()
 
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
